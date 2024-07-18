@@ -1,4 +1,4 @@
-%GA V 1.0.0
+%GA V 1.0.1
 clear
 clc
 
@@ -6,20 +6,24 @@ clc
 M = 20; % # of Chromosomes (candiate solution)
 
 N = 10; % # of genes (variables)
-MaxGen =100
-Pc = 0.5; %Prob. of crossover
-Pm = 0.1; 
-Er =0.1;
+MaxGen = 10;
+Pc = 0.85; %Prob. of crossover
+Pm = 0.01; 
+Er =0.3;
 
 [population] = initialization(M, N);
 
-for i = 1:M
-    population.Chromosome(i).fitness = Sphere(population.Chromosome(i).Gene(:));
-end
-
+g = 1;
+disp(['Generation#',num2str(g)]);
 
 %%Main Loop
 for g = 2: MaxGen 
+    disp(['Generation#',num2str(g)]);
+    %Calc the fitness value
+    for i = 1:M
+        population.Chromosome(i).fitness = Sphere(population.Chromosome(i).Gene(:));
+    end
+
     for k = 1 :2: M
         %selection
         [parent1, parent2] = selection(population);
@@ -40,7 +44,7 @@ for g = 2: MaxGen
     
     %elitism
     
-    [newPopulation] = elitism(population, population,Er);
-    population = newPopulation %after these operations make result as population
-    
+    [newPopulation] = elitism(population, Er);
+    population = newPopulation; %after these operations make result as population
+
 end
